@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         tvStatus = findViewById(R.id.tvStatus)
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+        Log.d(mTAG, "isInternet = ${isInternet()}")
+
     }
 
     override fun onResume() {
@@ -77,23 +79,28 @@ class MainActivity : AppCompatActivity() {
                 urlc.connect()
             } catch (e: SocketTimeoutException) {
                 Log.d(
-                    "MainActivity",
-                    "(SocketTimeoutException) Error checking internet connection",
-                    e
+                    mTAG,
+                    "(SocketTimeoutException) Error checking internet connection = ${e.message}"
                 )
             } catch (e: IOException) {
-                Log.d("MainActivity", "(IOException) Error checking internet connection", e)
+                Log.d(mTAG, "(IOException) Error checking internet connection = ${e.message}")
             } catch (e: URISyntaxException) {
-                Log.d("MainActivity", "(URISyntaxException) Error checking internet connection", e)
+                Log.d(
+                    mTAG,
+                    "(URISyntaxException) Error checking internet connection = ${e.message}"
+                )
             } catch (e: UnknownHostException) {
-                Log.d("MainActivity", "(UnknownHostException) Error checking internet connection", e)
+                Log.d(
+                    mTAG,
+                    "(UnknownHostException) Error checking internet connection = ${e.message}"
+                )
             }
             urlc.responseCode == 200
         } catch (e: Exception) {
-            Log.d("MainActivity", "(Exception) Error checking internet connection", e)
+            Log.d(mTAG, "(Exception) Error checking internet connection = ${e.message}")
             false
         } catch (e: ConnectException) {
-            Log.d("MainActivity", "(ConnectException2) Error checking internet connection", e)
+            Log.d(mTAG, "(ConnectException2) Error checking internet connection = ${e.message}")
             false
         }
     }
