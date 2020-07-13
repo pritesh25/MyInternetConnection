@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.log
 
 
 class SecondActivity : AppCompatActivity() {
@@ -22,7 +21,6 @@ class SecondActivity : AppCompatActivity() {
         setContentView(R.layout.activity_second)
         Log.d(mTag, "Second launched")
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
     }
 
     override fun onResume() {
@@ -30,11 +28,12 @@ class SecondActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) /* api 24 or above */ {
             connectivityManager?.registerDefaultNetworkCallback(networkCallback)
         } else {
+            Log.d(mTag, "(onResume) below api 24")
             val networkInfo: NetworkInfo = connectivityManager?.activeNetworkInfo!!
             if (networkInfo.isConnected) {
-                Log.d(mTag, "connected to internet")
+                Log.d(mTag, "(below api 24)connected to internet")
             } else {
-                Log.d(mTag, "connected to internet")
+                Log.d(mTag, "(below api 24)connected to internet")
             }
         }
     }
@@ -53,6 +52,11 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        connectivityManager?.unregisterNetworkCallback(networkCallback)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager?.unregisterNetworkCallback(networkCallback)
+        } else {
+            Log.d(mTag, "(onPause) below api 24")
+        }
+
     }
 }
